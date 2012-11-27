@@ -46,6 +46,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableUtils;
 
+import com.groovenauts.hive.mongo.SqlTimestamp;
+
 /**
  * ObjectInspectorFactory is the primary way to create new ObjectInspector
  * instances.
@@ -782,7 +784,7 @@ public final class PrimitiveObjectInspectorUtils {
         }
       }
       try {
-        result = Timestamp.valueOf(s);
+        result = SqlTimestamp.valueOf(s);
       } catch (IllegalArgumentException e) {
         result = null;
       }

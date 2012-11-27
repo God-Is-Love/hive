@@ -8,3 +8,5 @@ build-eclipse
 *.launch
 *~
 metastore_db
+cli/bin
+serde/bin

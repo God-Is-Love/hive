@@ -27,6 +27,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.serde2.io.TimestampWritable;
 import org.apache.hadoop.hive.serde2.lazy.objectinspector.primitive.LazyTimestampObjectInspector;
 
+import com.groovenauts.hive.mongo.SqlTimestamp;
+
 /**
  *
  * LazyTimestamp.
@@ -71,7 +73,7 @@ public class LazyTimestamp extends LazyPrimitive<LazyTimestampObjectInspector, T
       t = null;
       logExceptionMessage(bytes, start, length, "TIMESTAMP");
     } else {
-      t = Timestamp.valueOf(s);
+      t = SqlTimestamp.valueOf(s);
     }
     data.set(t);
   }
