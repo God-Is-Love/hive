@@ -20,6 +20,8 @@ package org.apache.hadoop.hive.serde2.lazy;
 import org.apache.hadoop.hive.serde2.lazy.objectinspector.primitive.LazyStringObjectInspector;
 import org.apache.hadoop.io.Text;
 
+import com.groovenauts.hive.mongo.QuoteText;
+
 /**
  * LazyObject for storing a value of String.
  */
@@ -35,11 +37,14 @@ public class LazyString extends LazyPrimitive<LazyStringObjectInspector, Text> {
     data = new Text(copy.data);
   }
 
+  
   @Override
   public void init(ByteArrayRef bytes, int start, int length) {
+    final byte[] byte_data = bytes.getData();
+
     if (oi.isEscaped()) {
       byte escapeChar = oi.getEscapeChar();
-      byte[] inputBytes = bytes.getData();
+      byte[] inputBytes = byte_data;
 
       // First calculate the length of the output string
       int outputLength = 0;
@@ -54,7 +59,7 @@ public class LazyString extends LazyPrimitive<LazyStringObjectInspector, Text> {
 
       // Copy the data over, so that the internal state of Text will be set to
       // the required outputLength.
-      data.set(bytes.getData(), start, outputLength);
+   	  QuoteText.setTo(data, byte_data, start, outputLength);
 
       // We need to copy the data byte by byte only in case the
       // "outputLength < length" (which means there is at least one escaped
@@ -75,8 +80,8 @@ public class LazyString extends LazyPrimitive<LazyStringObjectInspector, Text> {
         assert (k == outputLength);
       }
     } else {
-      // if the data is not escaped, simply copy the data.
-      data.set(bytes.getData(), start, length);
+		// if the data is not escaped, simply copy the data.
+    	QuoteText.setTo(data, byte_data, start, length);
     }
   }
 

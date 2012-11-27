@@ -10,3 +10,5 @@ build-eclipse
 metastore_db
 cli/bin
 serde/bin
+ql/bin
+service/bin
